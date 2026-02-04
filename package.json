@@ -1,0 +1,16 @@
+{
+	"name": "squish",
+	"version": "1.0.0",
+	"description": "Converts video files to H265 by selecting bitrate based off of resolution",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"recursive-readdir": "^2.2.2",
+		"shelljs": "^0.8.5",
+		"yargs": "^15.3.1"
+	}
+}
