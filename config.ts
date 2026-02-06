@@ -11,7 +11,6 @@ export type Config = {
   inputDir: string;
   handBrakeCLI: string;
   presetGroups: PresetGroup[];
-  defaultPresetGroupId: string;
   excludedDirs: string[];
   videoExtensions: string[];
   outputSuffix: string;
@@ -37,7 +36,6 @@ export const config: Config = {
       maxInstances: 2
     }
   ],
-  defaultPresetGroupId: 'cpu',
   excludedDirs: ['/mnt/plexdrive/temp', '/mnt/plexdrive/MC'],
   videoExtensions: ['.mp4', '.avi', '.mov', '.mkv', '.m4v', '.wmv'],
   outputSuffix: ' [SQUISH]',
