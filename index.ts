@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 
 import { config } from './config';
 import { searchFolders } from './controllers/mediaController';
@@ -107,11 +106,9 @@ function handleError(e: unknown) {
   const year = startDate.getFullYear();
   const date = `${year}-${month}-${day}`;
 
-  console.log(path.resolve('./'));
-
   const message = e instanceof Error ? e.toString() : String(e);
   fs.writeFileSync(
-    `${path.resolve('./')}/Squish CRON ${date} CRASH.log`,
+    `${config.inputDir}/Squish CRON ${date} CRASH.log`,
     message
   );
 }

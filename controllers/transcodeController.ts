@@ -35,6 +35,7 @@ export const transcodeVideos = async (
   files: string[],
   config: Config
 ): Promise<TranscodeSummary> => {
+  const startTime = Date.now();
   const queueState = loadQueueState(config.queueStateFile);
   const skippedFiles = files.filter((file) =>
     queueState.completed.includes(file)
@@ -61,6 +62,7 @@ export const transcodeVideos = async (
 
   const runningCounts: Record<string, number> = {};
   const activeJobs = new Set<Promise<void>>();
+  const runningFiles = new Map<string, string>();
   const progressLogger = createProgressLogger(
     `${config.inputDir}/Squish CRON.log`
   );
@@ -74,15 +76,20 @@ export const transcodeVideos = async (
       running,
       queued: jobs.length,
       success: results.success.length,
-      failed: results.errors.length
+      failed: results.errors.length,
+      runningFiles: Array.from(runningFiles.entries()).map(
+        ([file, presetId]) => `${presetId} | ${file}`
+      ),
+      elapsedMs: Date.now() - startTime
     };
   };
 
   const startJob = (job: TranscodeJob, presetGroup: PresetGroup) => {
     const presetId = presetGroup.id;
     runningCounts[presetId] = (runningCounts[presetId] ?? 0) + 1;
+    runningFiles.set(job.file, presetId);
 
-    const nowDoingMessage = `Transcoding (${presetId}) ${job.file}`;
+    const nowDoingMessage = `Transcoding (${presetId})`;
     progressLogger.log(nowDoingMessage, getStats(), { console: true });
 
     const jobPromise = runHandBrakeJob(
@@ -122,6 +129,7 @@ export const transcodeVideos = async (
           0,
           (runningCounts[presetId] ?? 1) - 1
         );
+        runningFiles.delete(job.file);
         saveQueueState(queueState, config.queueStateFile);
         progressLogger.log('Updated queue state', getStats());
       });

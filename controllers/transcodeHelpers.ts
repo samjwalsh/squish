@@ -15,6 +15,8 @@ export type ProgressStats = {
   queued: number;
   success: number;
   failed: number;
+  runningFiles: string[];
+  elapsedMs: number;
 };
 
 export type ProgressLogger = {
@@ -41,7 +43,21 @@ export const createProgressLogger = (logFilePath: string): ProgressLogger => {
       nowDoing(message);
     }
 
-    const fileOutput = `${message}\nRunning: ${stats.running}\nQueued: ${stats.queued}\nSucceeded: ${stats.success}\nFailed: ${stats.failed}`;
+    const elapsedMs = Math.max(0, stats.elapsedMs);
+    const elapsedSeconds = Math.floor(elapsedMs / 1000);
+    const hours = Math.floor(elapsedSeconds / 3600);
+    const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+    const seconds = elapsedSeconds % 60;
+    const elapsed = `${hours}:${String(minutes).padStart(2, '0')}:${String(
+      seconds
+    ).padStart(2, '0')}`;
+
+    const runningList =
+      stats.runningFiles.length > 0
+        ? stats.runningFiles.map((file) => ` - ${file}`).join('\n')
+        : ' (none)';
+
+    const fileOutput = `${message}\nElapsed: ${elapsed}\nRunning: ${stats.running}\nQueued: ${stats.queued}\nSucceeded: ${stats.success}\nFailed: ${stats.failed}\n\nCurrently transcoding:\n${runningList}`;
     try {
       fs.writeFileSync(logFilePath, fileOutput);
     } catch (e) {

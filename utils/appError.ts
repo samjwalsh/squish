@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 
+import { config } from '../config';
 import { insertBar } from './consoleEffects';
 
 const appError = (message: string, exit: boolean, e?: unknown) => {
@@ -16,7 +16,7 @@ const appError = (message: string, exit: boolean, e?: unknown) => {
     date = new Date(`${year}-${month}-${day}`);
     const errorMessage = e instanceof Error ? e.toString() : String(e);
     fs.writeFileSync(
-      `${path.resolve('./')}/Squish CRON ${day}-${month}-${year} CRASH.log`,
+      `${config.inputDir}/Squish CRON ${day}-${month}-${year} CRASH.log`,
       errorMessage
     );
 

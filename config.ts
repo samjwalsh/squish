@@ -23,17 +23,17 @@ export type Config = {
 const projectRoot = process.cwd();
 
 export const config: Config = {
-  inputDir: path.resolve(projectRoot),
+  inputDir: "/home/sam/Videos/Tests/Original",
   handBrakeCLI: 'HandBrakeCLI',
   presetGroups: [
     {
       id: 'nvenc',
-      presetFile: path.resolve(projectRoot, 'nvenc.json'),
+      presetFile: path.resolve(projectRoot, 'presets', 'nvenc.json'),
       maxInstances: 1
     },
     {
       id: 'cpu',
-      presetFile: path.resolve(projectRoot, 'H265.json'),
+      presetFile: path.resolve(projectRoot, 'presets', 'cpu.json'),
       maxInstances: 2
     }
   ],
