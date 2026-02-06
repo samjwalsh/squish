@@ -19,7 +19,8 @@ export type Config = {
   queueStateFile?: string;
 };
 
-const projectRoot = process.cwd();
+const projectRoot = path.resolve(__dirname, '..');
+const presetRoot = path.resolve(projectRoot, 'presets');
 
 export const config: Config = {
   inputDir: "/home/sam/Videos/Tests/Original",
@@ -27,12 +28,12 @@ export const config: Config = {
   presetGroups: [
     {
       id: 'nvenc',
-      presetFile: path.resolve(projectRoot, 'presets', 'nvenc.json'),
+      presetFile: path.resolve(presetRoot, 'nvenc.json'),
       maxInstances: 1
     },
     {
       id: 'cpu',
-      presetFile: path.resolve(projectRoot, 'presets', 'cpu.json'),
+      presetFile: path.resolve(presetRoot, 'cpu.json'),
       maxInstances: 2
     }
   ],
