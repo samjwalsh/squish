@@ -2,15 +2,22 @@
 	"name": "squish",
 	"version": "1.0.0",
 	"description": "Converts video files to H265 by selecting bitrate based off of resolution",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"start": "node dist/index.js",
+		"dev": "ts-node index.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"recursive-readdir": "^2.2.2",
-		"shelljs": "^0.8.5",
-		"yargs": "^15.3.1"
+		"recursive-readdir": "^2.2.2"
+	},
+	"devDependencies": {
+		"@types/node": "^20.19.32",
+		"@types/recursive-readdir": "^2.2.2",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.4"
 	}
 }
